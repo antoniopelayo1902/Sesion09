@@ -1,0 +1,21 @@
+# Batches generados localmente
+batches/
+scripts/batches/
+
+# Log de origen descargado
+OpenSSH_2k.log
+*.log
+
+# Artefactos de empaquetado de la Lambda
+build/
+dist/
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema
+.DS_Store

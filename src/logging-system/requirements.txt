@@ -1,0 +1,8 @@
+# boto3 y botocore ya vienen incluidos en el runtime de AWS Lambda,
+# por eso no es necesario empaquetarlos.
+#
+# Si agregas dependencias externas, listalas aqui y package-lambda.sh
+# las instalara dentro del .zip de despliegue.
+#
+# Para desarrollo local puedes instalar boto3 con:
+#   pip install boto3
