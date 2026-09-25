@@ -14,7 +14,7 @@ set -euo pipefail
 
 WAIT_SECONDS="${1:-30}"
 BATCH_DIR="${2:-batches}"
-BUCKET="${BUCKET:-logging}"
+BUCKET="${BUCKET:-desarrollo-nube-2026}"
 
 if ! [[ "$WAIT_SECONDS" =~ ^[0-9]+$ ]]; then
   echo "ERROR: el primer argumento debe ser el numero de segundos a esperar." >&2

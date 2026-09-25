@@ -34,7 +34,6 @@ def parse_line(line):
     return d
 
 def lambda_handler(event, context):
-    # Inicializamos la lista que contendrá todas las líneas procesadas
     parsed_lines = []
 
     for record in event.get("Records", []):
@@ -47,15 +46,22 @@ def lambda_handler(event, context):
 
         print(f"Descargando batch s3://{bucket}/{key}")
         obj = s3.get_object(Bucket=bucket, Key=key)
+        
+        # Extraer la hora real de llegada a S3 para usarla como Sort Key en DynamoDB
+        batch_timestamp = obj['LastModified'].isoformat()
+        
         content = obj["Body"].read().decode("utf-8", errors="replace")
 
-        # Separar el batch en líneas individuales
-        for raw_line in content.splitlines():
+        for index, raw_line in enumerate(content.splitlines()):
             parsed_data = parse_line(raw_line)
             if parsed_data:
-                parsed_data["id"] = f"{key}-{len(parsed_lines)}" # Generamos un ID único básico para DynamoDB
+                parsed_data["id"] = f"{key}-{index}"
+                parsed_data["batch_timestamp"] = batch_timestamp
+                
+                # Llaves de partición requeridas por las tablas de DynamoDB
+                parsed_data["log_type"] = "syslog"
+                parsed_data["alert_status"] = "ACTIVE"
+                
                 parsed_lines.append(parsed_data)
 
-    # La Lambda termina devolviendo el arreglo completo. 
-    # Step Functions tomará este arreglo como input para su estado 'Map'.
     return parsed_lines

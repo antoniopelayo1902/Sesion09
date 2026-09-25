@@ -13,7 +13,7 @@
 #
 set -euo pipefail
 
-BUCKET="${BUCKET:-logging}"
+BUCKET="${BUCKET:-desarrollo-nube-2026}"
 REGION="${AWS_REGION:-us-east-1}"
 
 echo "Creando bucket '${BUCKET}' en la region '${REGION}'..."
